@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Dugeon Crawler/Dugeon Crawler.vcxproj" Id="7ac15f53-05af-4125-b259-bf817fc53d3b" />
+</Solution>
