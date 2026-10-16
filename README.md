@@ -1,44 +1,8 @@
-# 🚀 Welcome to Project & Portfolio!
-
-This repository will be used to keep track of research and development conducted in this class. Follow the instructions below to get started.
-cos
-### Getting Started
-
-**1.** Review the [About](./docs/01_about/README.md) README and all of the links it provides.
-
-**2.** Review the documentation and [Getting Started](./docs/02_getting_started/README.md) steps in this repository's docs folder.
-
-**3.** Attend the first Live Lecture to see a live setup demo. If you are unable to attend, make sure to watch the archive.
-
-### Next Steps...
-
-After completing the above steps, feel free to begin updating this readme where indicated below. Remember to update this document each week to receive proper credit for the weekly Milestone assignment.
-
-<br>
-
-> ❗️ &nbsp; Now that you have read to this point, go ahead and delete this sentence and everything above it.
-
-<br>
-
 # Project & Portfolio 1
 
 ### Student First & Last Name
 
-Hello my name is [enter name]. I am a student from [where are you from?]. The purpose of this repository is to practice development using version control. This work will help me begin to build a portfolio of skills and accomplishment that can be shared in the future.
-
-<br>
-
-## 📢 &nbsp; Weekly Stand Up
-
-Each week I will summarize my milestone activity and progress by writing a stand-up. A stand-up is meant to be a succinct update on how things are going. Use these prompts as a guide on what to write about:
-
-⚙️ Overview - What I worked on this past week
-<br>
-🌵 Challenges - What problems did I have & how I'm addressing them
-<br>
-🏆 Accomplishments - What is something I "leveled up" on this week
-<br>
-🔮 Next Steps - What I plan to prioritize and do next
+Hello my name is William Alfonso. I am a student from FullsailUniveristy. The purpose of this repository is to practice development using version control. This work will help me begin to build a portfolio of skills and accomplishment that can be shared in the future.
 
 <br>
 
@@ -52,7 +16,32 @@ My next stand up will go here...
 
 ### Week 3
 
-Stay tuned, this stand up is coming soon...
+🔎 Overview
+
+This week I added enemies and combat to my dungeon crawler. The player can now fight goblins by walking into them, heal with potions, and lose the game if HP reaches 0. I built each feature in small steps, tested it, and committed it on my dev branch.
+
+Improvements
+Created an Enemy class with its own .h and .cpp files
+Refactored Game::play() into handleCommand(), move(), and checkEndConditions() so each function does one job
+Replaced the duplicated “invalid command” message with a single shared one
+Added a MAX_HEALTH constant so healing can’t go over the maximum
+Updated the README and added planning and change documents in /docs
+
+Challenges
+Visual Studio errors after adding new files, fixed by adding Enemy.cpp to the project and including the missing getTilePtr in Grid
+Git permission errors
+Balancing combat 
+
+Accomplishments
+I got more comfortable with pointers. getTilePtr() returns a Tile* (or nullptr) so I can edit a tile in place, and Game owns the Grid through a unique_ptr.
+I learned to find enemies by index instead of pointer, because erasing from a vector can leave pointers dangling.
+I improved my Git workflow with small, frequent commits on dev, and a pull request to main.
+
+Next Steps
+Add a second level or room]
+Add different enemy types]
+Test edge cases and fix bugs
+Final cleanup, comments, and documentation
 
 ### Week 4
 
