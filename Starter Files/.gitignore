@@ -454,3 +454,9 @@ FodyWeavers.xsd
 *.vsidx
 *.vs
 .DS_Store
+
+.vs/
+x64/
+Debug/
+Release/
+*.user
