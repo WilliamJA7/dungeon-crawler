@@ -3,28 +3,27 @@
 class Player
 {
 public:
-    Player(int startX = 1, int startY = 1)
-        : x(startX), y(startY), health(20), score(0), potions(0), steps(0) {
-    }
+    static const int MAX_HEALTH = 20;
 
-    int getX() const { return x; }
-    int getY() const { return y; }
-    int getHealth() const { return health; }
-    int getScore() const { return score; }
-    int getPotions() const { return potions; }
-    int getSteps() const { return steps; }
+    Player(int startX = 1, int startY = 1);
 
-    void setPosition(int newX, int newY) { x = newX; y = newY; }
-    void moveTo(int newX, int newY) { x = newX; y = newY; ++steps; }
-    void addScore(int amount) { score += amount; }
-    void addPotion() { ++potions; }
+    int getX() const;
+    int getY() const;
+    int getHealth() const;
+    int getScore() const;
+    int getPotions() const;
+    int getSteps() const;
+    int getAttack() const;
+    bool isAlive() const;
+
+    void setPosition(int newX, int newY);
+    void moveTo(int newX, int newY);
+    void addScore(int amount);
+    void addPotion();
+    void takeDamage(int amount);
 
     // Puts the player back to a fresh state for a new run.
-    void reset(int startX, int startY)
-    {
-        x = startX; y = startY;
-        health = 20; score = 0; potions = 0; steps = 0;
-    }
+    void reset(int startX, int startY);
 
 private:
     int x;
@@ -33,4 +32,6 @@ private:
     int score;
     int potions;
     int steps;
+    int attack;
 };
+

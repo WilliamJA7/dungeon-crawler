@@ -22,6 +22,8 @@ private:
     void spawnEnemies();
     // Returns the index of the enemy at (x, y), or -1 if there is none.
     int findEnemyIndex(int x, int y) const;
+    // One round of combat: the player hits, then the enemy hits back if it survives.
+    void fight(int enemyIndex);
 
     // Tries to move the player by (dx, dy). Returns true if the move happened.
     bool tryMove(int dx, int dy);

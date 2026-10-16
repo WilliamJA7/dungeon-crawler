@@ -13,6 +13,7 @@ public:
 
     bool inBounds(int x, int y) const;
     Tile getTile(int x, int y) const;
+    Tile* getTilePtr(int x, int y);
     void setTile(int x, int y, Tile tile);
     bool isWalkable(int x, int y) const;
 

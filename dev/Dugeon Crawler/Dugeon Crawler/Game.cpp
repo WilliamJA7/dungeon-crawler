@@ -104,9 +104,38 @@ bool Game::tryMove(int dx, int dy)
         return false;
     }
 
+    // An enemy blocks the tile: attack it instead of moving.
+    int enemyIndex = findEnemyIndex(newX, newY);
+    if (enemyIndex != -1)
+    {
+        fight(enemyIndex);
+        return false;   // The player stays where they are
+    }
+
     player.moveTo(newX, newY);
     message = "";
     return true;
+}
+
+void Game::fight(int enemyIndex)
+{
+    Enemy& enemy = enemies[enemyIndex];
+
+    int playerDamage = player.getAttack();
+    enemy.takeDamage(playerDamage);
+
+    if (!enemy.isAlive())
+    {
+        message = "You defeated the goblin!";
+        enemies.erase(enemies.begin() + enemyIndex);
+        return;
+    }
+
+    int enemyDamage = enemy.getDamage();
+    player.takeDamage(enemyDamage);
+    message = "You hit the goblin for " + std::to_string(playerDamage)
+        + " (goblin HP: " + std::to_string(enemy.getHealth())
+        + "). It hits you for " + std::to_string(enemyDamage) + ".";
 }
 
 bool Game::handleTile()

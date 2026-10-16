@@ -27,6 +27,13 @@ void Grid::setTile(int x, int y, Tile tile)
         tiles[y][x] = tile;
 }
 
+Tile* Grid::getTilePtr(int x, int y)
+{
+    if (!inBounds(x, y))
+        return nullptr;
+    return &tiles[y][x];
+}
+
 bool Grid::isWalkable(int x, int y) const
 {
     return getTile(x, y) != Tile::Wall;
