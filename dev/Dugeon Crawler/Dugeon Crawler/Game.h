@@ -1,5 +1,8 @@
 #pragma once
+#include <memory>
 #include <string>
+#include <vector>
+#include "Enemy.h"
 #include "Grid.h"
 #include "Player.h"
 
@@ -15,6 +18,11 @@ private:
     void play();  // Core game loop for one dungeon run
     void draw() const;
 
+    // Week 3: enemies
+    void spawnEnemies();
+    // Returns the index of the enemy at (x, y), or -1 if there is none.
+    int findEnemyIndex(int x, int y) const;
+
     // Tries to move the player by (dx, dy). Returns true if the move happened.
     bool tryMove(int dx, int dy);
     // Handles whatever is on the tile the player just stepped onto.
@@ -28,7 +36,8 @@ private:
     static const int START_X = 1;
     static const int START_Y = 1;
 
-    Grid grid;
+    std::unique_ptr<Grid> grid;   // Owned pointer: a fresh dungeon is created each run
     Player player;
+    std::vector<Enemy> enemies;
     std::string message;   // Feedback shown after each command
 };
