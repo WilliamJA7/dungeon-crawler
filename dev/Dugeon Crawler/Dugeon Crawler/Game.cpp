@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-Game::Game() : grid(15, 9), player(START_X, START_Y)
+Game::Game() : grid(std::make_unique<Grid>(15, 9)), player(START_X, START_Y)
 {
 }
 
@@ -46,7 +46,9 @@ void Game::showInstructions() const
 
 void Game::play()
 {
-    grid.buildTestRoom();
+    grid = std::make_unique<Grid>(15, 9);   // New dungeon for every run
+    grid->buildTestRoom();
+    spawnEnemies();
     player.reset(START_X, START_Y);
     message = "You enter the dungeon.";
 
@@ -96,10 +98,18 @@ bool Game::tryMove(int dx, int dy)
     int newX = player.getX() + dx;
     int newY = player.getY() + dy;
 
-    if (!grid.isWalkable(newX, newY))
+    if (!grid->isWalkable(newX, newY))
     {
         message = "A wall blocks your way.";
         return false;
+    }
+
+    // An enemy blocks the tile: attack it instead of moving.
+    int enemyIndex = findEnemyIndex(newX, newY);
+    if (enemyIndex != -1)
+    {
+        fight(enemyIndex);
+        return false;   // The player stays where they are
     }
 
     player.moveTo(newX, newY);
@@ -107,21 +117,44 @@ bool Game::tryMove(int dx, int dy)
     return true;
 }
 
+void Game::fight(int enemyIndex)
+{
+    Enemy& enemy = enemies[enemyIndex];
+
+    int playerDamage = player.getAttack();
+    enemy.takeDamage(playerDamage);
+
+    if (!enemy.isAlive())
+    {
+        message = "You defeated the goblin!";
+        enemies.erase(enemies.begin() + enemyIndex);
+        return;
+    }
+
+    int enemyDamage = enemy.getDamage();
+    player.takeDamage(enemyDamage);
+    message = "You hit the goblin for " + std::to_string(playerDamage)
+        + " (goblin HP: " + std::to_string(enemy.getHealth())
+        + "). It hits you for " + std::to_string(enemyDamage) + ".";
+}
+
 bool Game::handleTile()
 {
-    int x = player.getX();
-    int y = player.getY();
+    // Pointer to the tile under the player, so we can change it in place.
+    Tile* tile = grid->getTilePtr(player.getX(), player.getY());
+    if (tile == nullptr)
+        return false;   // Should never happen, but never dereference nullptr
 
-    switch (grid.getTile(x, y))
+    switch (*tile)
     {
     case Tile::Treasure:
         player.addScore(10);
-        grid.setTile(x, y, Tile::Floor);   // Item is gone once collected
+        *tile = Tile::Floor;   // Item is gone once collected
         message = "You found treasure! +10 score.";
         break;
     case Tile::Potion:
         player.addPotion();
-        grid.setTile(x, y, Tile::Floor);
+        *tile = Tile::Floor;
         message = "You picked up a potion.";
         break;
     case Tile::Exit:
@@ -132,19 +165,43 @@ bool Game::handleTile()
     return false;
 }
 
+void Game::spawnEnemies()
+{
+    enemies.clear();
+    enemies.push_back(Enemy(5, 4));
+    enemies.push_back(Enemy(5, 6));
+    enemies.push_back(Enemy(12, 4));
+}
+
+int Game::findEnemyIndex(int x, int y) const
+{
+    for (size_t i = 0; i < enemies.size(); ++i)
+    {
+        if (enemies[i].getX() == x && enemies[i].getY() == y)
+            return static_cast<int>(i);
+    }
+    return -1;
+}
+
 void Game::draw() const
 {
     std::cout << "\n";
-    for (int y = 0; y < grid.getHeight(); ++y)
+    for (int y = 0; y < grid->getHeight(); ++y)
     {
-        for (int x = 0; x < grid.getWidth(); ++x)
+        for (int x = 0; x < grid->getWidth(); ++x)
         {
             if (x == player.getX() && y == player.getY())
             {
                 std::cout << '@';
                 continue;
             }
-            switch (grid.getTile(x, y))
+            int enemyIndex = findEnemyIndex(x, y);
+            if (enemyIndex != -1)
+            {
+                std::cout << enemies[enemyIndex].getSymbol();
+                continue;
+            }
+            switch (grid->getTile(x, y))
             {
             case Tile::Wall:     std::cout << '#'; break;
             case Tile::Exit:     std::cout << 'E'; break;
