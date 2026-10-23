@@ -21,6 +21,8 @@ public:
     void addScore(int amount);
     void addPotion();
     void takeDamage(int amount);
+    void heal(int amount);        // Never goes above MAX_HEALTH
+    bool usePotion();             // Returns false if there are no potions
 
     // Puts the player back to a fresh state for a new run.
     void reset(int startX, int startY);
@@ -34,4 +36,3 @@ private:
     int steps;
     int attack;
 };
-

@@ -37,6 +37,21 @@ void Player::takeDamage(int amount)
         health = 0;
 }
 
+void Player::heal(int amount)
+{
+    health += amount;
+    if (health > MAX_HEALTH)
+        health = MAX_HEALTH;
+}
+
+bool Player::usePotion()
+{
+    if (potions <= 0)
+        return false;
+    --potions;
+    return true;
+}
+
 void Player::reset(int startX, int startY)
 {
     x = startX;
