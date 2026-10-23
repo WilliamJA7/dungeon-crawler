@@ -1,7 +1,5 @@
 # Project & Portfolio 1
 
-### Student First & Last Name
-
 Hello my name is William Alfonso. I am a student from FullsailUniveristy. The purpose of this repository is to practice development using version control. This work will help me begin to build a portfolio of skills and accomplishment that can be shared in the future.
 
 <br>
@@ -45,4 +43,18 @@ Final cleanup, comments, and documentation
 
 ### Week 4
 
-My final stand up...
+This week I finished the final features of my dungeon crawler. The player can fight goblins, heal with potions, win by reaching the exit, or lose when HP reaches 0. I also completed the main menu, instructions, and replay system.
+
+Improvements
+- Refactored `Game::play()` into smaller functions.
+- Added `Enemy` class files and improved pointer usage with `Enemy*` and `Tile*`.
+- Added constants for health, healing, and other values.
+- Improved input validation, status updates, and combat messages.
+
+Challenges
+- Preventing dangling pointers when removing defeated enemies.
+- Fixing invalid input and out-of-bounds errors.
+- Making sure player stats and the dungeon reset between runs.
+
+Accomplishments
+I improved my understanding of pointers, references, `unique_ptr`, and safe enemy removal. I also made the game more reliable by testing edge cases and fixing bugs.
